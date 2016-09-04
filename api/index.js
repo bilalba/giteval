@@ -14,7 +14,8 @@ var port = process.env.PORT || config.port;
 
 app.get('/getuser', calculate.getUser);
 
-app.get('getfollowerscore', calculate.followers);
+app.get('/getfollowerscore', calculate.followers);
+app.get('/getactivityscore', calculate.activity);
 
 app.listen(port);
 

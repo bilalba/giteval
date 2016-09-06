@@ -19,8 +19,23 @@ exports.followers = function(req, res) {
 		// var user = 'zxx';
 		github.users.getFollowersForUser({'user': req.query.user}).then
         (function(data) {
-            console.log('sa mina mee na');
-            res.send(data);
+            console.log('sa mina mee na' + data.length);
+            var score = 0;
+            var count = 0;
+            for (var i = 0; i < data.length; i++) {
+                console.log(i);
+                github.users.getForUser({'user':data[i].login})
+                .then(function(user) {
+                    console.log(user);
+                    score += user.followers/parseFloat(user.following);
+                    count++;
+                    if (count == data.length){ console.log('jey');res.send({'score': score});}
+                });
+                
+            }
+
+            
+            
         })
         .catch(function(err) {
             res.send(err);

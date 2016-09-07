@@ -16,7 +16,7 @@ app.get('/getuser', calculate.getUser);
 
 app.get('/getfollowerscore', calculate.followers);
 app.get('/getactivityscore', calculate.activity);
-
+app.get('/getrepodata', calculate.repodata);
 app.get('*', function(req,res){res.send({error: 404})});
 
 app.listen(port);

@@ -68,19 +68,19 @@ exports.repodata = function(req, res) {
         .then(function(data){
             var total_repos = data.length; // going tu use this.
             var unforked = 0;
+            var size = 0;
             for (var i =0; i< total_repos; i++) {
-                // github.repos.getLanguages({ ... });
                 if (!data[i].fork) unforked++;
-                
+                size += data[i].size;
             }
-
-            var hello = 'pussyX';
             var send = {
                 'total_repos': total_repos,
+                unforked : unforked,
+                size : size
             };
-            send[hello] = unforked;
             res.send(send);
             startLanguageComputation(req.query.user, data, unforked);
+            startContributionComputation(req.query.user, data, unforked);
         }).catch(function(error) {
             res.send({error:"gateway timeout"})
         });
@@ -89,10 +89,14 @@ exports.repodata = function(req, res) {
     }
 };
 
+
+function startContributionComputation(user, data, unforked) {
+    // going to fill this out. 
+}
+
 function startLanguageComputation(user, data, unforked) {
     var languages = {};
     var count = 0;
-    console.log("hghgh");
     for (var i = 0; i < data.length; i++) {
         (function(i) {
             if (!data[i].fork){
@@ -109,8 +113,8 @@ function startLanguageComputation(user, data, unforked) {
                         obj[data[i].name] = langdata[k];
                         languages[k].breakdown.push(obj);
                     });
-                        count++;
-                        if (count == unforked) storeLanguage(user, languages);
+                    count++;
+                    if (count == unforked) storeLanguage(user, languages);
                 }).catch( function(err) {
                     console.log(err);
                 });

@@ -92,29 +92,35 @@ exports.repodata = function(req, res) {
 function startLanguageComputation(user, data, unforked) {
     var languages = {};
     var count = 0;
+    console.log("hghgh");
     for (var i = 0; i < data.length; i++) {
-        if (!data[i].fork){
-            console.log(data[i].name);
-            github.repos.getLanguages({user:user, repo:data[i].name,per_page:100})
-            .then(function(langdata) {
+        (function(i) {
+            if (!data[i].fork){
+                github.repos.getLanguages({user:user, repo:data[i].name,per_page:100})
+                .then(function(langdata) {
 
-                console.log(langdata);  
-                Object.keys(langdata).forEach(function(k) {
-                    if (k == 'meta') return;
-                    if (!languages[k]) languages[k] = langdata[k];
-                    else languages[k] += langdata[k];
+                    console.log(data[i].name);
+                    console.log(langdata);  
+                    Object.keys(langdata).forEach(function(k) {
+                        if (k == 'meta') return;
+                        if (!languages[k]) languages[k] = {score:0, breakdown:[]};
+                        languages[k].score += langdata[k];
+                        var obj = {};
+                        obj[data[i].name] = langdata[k];
+                        languages[k].breakdown.push(obj);
+                    });
+                        count++;
+                        if (count == unforked) storeLanguage(user, languages);
+                }).catch( function(err) {
+                    console.log(err);
                 });
-                    count++;
-                    if (count == unforked) storeLanguage(user, languages);
-            }).catch( function(err) {
-                console.log(languages);
-            });
-        }
+            }
+        })(i);
     }
 }
 
 function storeLanguage(user, lang) { // move into a cache from here.
-    console.log(lang);
+    console.log(JSON.stringify(lang));
 }
 
 

@@ -12,7 +12,7 @@ var github = new GitHubApi({
     },
     Promise: require('bluebird'),
     followRedirects: false, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
-    timeout: 500000
+    timeout: 10000
 });
 
 
@@ -79,7 +79,7 @@ exports.repodata = function(req, res) {
                 size : size
             };
             res.send(send);
-            startLanguageComputation(req.query.user, data, unforked);
+            // startLanguageComputation(req.query.user, data, unforked);
             startContributionComputation(req.query.user, data, unforked);
         }).catch(function(error) {
             res.send({error:"gateway timeout"})
@@ -92,7 +92,7 @@ exports.repodata = function(req, res) {
 
 function startContributionComputation(user, data, unforked) {
     // going to fill this out. 
-    var contributions = {};
+    var contributions = {commits:0, by_repo:[]};
     var count = 0;
     var commit_count = 0;
     for (var i = 0; i < data.length; i++) {
@@ -100,15 +100,18 @@ function startContributionComputation(user, data, unforked) {
             github.repos.getContributors({user:user, repo:data[i].name, per_page:100})
             .then(function(contribdata) {
                 for (var j = 0; j < contribdata.length; j++) {
-                    if (contribdata[j].login == user)
-                        commit_count += contribdata[j].contributions;
-
+                        if (contribdata[j].login == user){
+                            contributions.commits += contribdata[j].contributions;
+                            var obj = {};
+                            obj[data[i].name] = contribdata[j].contributions;
+                            contributions.by_repo.push(obj);
+                        }
                 }
 
                 count++;
                 if (count == data.length) {
                     // all tasks done.
-                    console.log("Contrib count:" + commit_count); 
+                    console.log(contributions); 
                 }
             })
             .catch(function(err){

@@ -12,7 +12,7 @@ var github = new GitHubApi({
     },
     Promise: require('bluebird'),
     followRedirects: false, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
-    timeout: 5000
+    timeout: 500000
 });
 
 
@@ -92,6 +92,30 @@ exports.repodata = function(req, res) {
 
 function startContributionComputation(user, data, unforked) {
     // going to fill this out. 
+    var contributions = {};
+    var count = 0;
+    var commit_count = 0;
+    for (var i = 0; i < data.length; i++) {
+        (function(i) {
+            github.repos.getContributors({user:user, repo:data[i].name, per_page:100})
+            .then(function(contribdata) {
+                for (var j = 0; j < contribdata.length; j++) {
+                    if (contribdata[j].login == user)
+                        commit_count += contribdata[j].contributions;
+
+                }
+
+                count++;
+                if (count == data.length) {
+                    // all tasks done.
+                    console.log("Contrib count:" + commit_count); 
+                }
+            })
+            .catch(function(err){
+                console.log(err);
+            })  
+        })(i);
+    }
 }
 
 function startLanguageComputation(user, data, unforked) {

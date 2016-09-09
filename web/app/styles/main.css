@@ -16,13 +16,18 @@
   padding: 0.2em 0;
 }
 
+html,body{
+    height: 100%
+}
+
 body {
   padding: 0;
-  background-color: #000000;
+  background-color: #221e1f;
 }
 
 h1 {
   font-family: 'Proxima Nova Semibold';
+  color: #fff;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -88,6 +93,10 @@ h1 {
     padding-left: 0;
     padding-right: 0;
   }
+
+  .container {
+    margin-left: 5%;
+  }
   /* Space out the masthead */
   .header {
     margin-bottom: 30px;
@@ -97,6 +106,11 @@ h1 {
     border-bottom: 0;
   }
 }
+
+.billo {
+  margin-top: 20%;
+}
+
 textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {   
     border-color: rgba(229, 103, 23, 0.8);
     box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);

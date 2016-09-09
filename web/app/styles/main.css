@@ -1,3 +1,14 @@
+@font-face{
+  font-family:'Proxima Nova Semibold';
+  src:url(fonts/ProximaNova-Sbold-webfont-063500858c86dd696024427d9d9ef3dd.eot);
+  src:url(fonts/ProximaNova-Sbold-webfont-063500858c86dd696024427d9d9ef3dd.eot?#iefix) format("embedded-opentype"),
+  url(fonts/ProximaNova-Sbold-webfont-1cda23ddf1b620e278ad1c95661a868e.woff) format("woff"),
+  url(fonts/ProximaNova-Sbold-webfont-ca15d0371235b456893884476fd10838.ttf) format("truetype"),
+  url(fonts/ProximaNova-Sbold-webfont-08b28532ce83169624497d45b962574a.svg#proxima_nova_ltsemibold) format("svg");
+  font-weight:normal;
+  font-style:normal
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -7,6 +18,11 @@
 
 body {
   padding: 0;
+  background-color: #000000;
+}
+
+h1 {
+  font-family: 'Proxima Nova Semibold';
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */

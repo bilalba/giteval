@@ -8,7 +8,11 @@
  * Controller of the gitevalApp
  */
 angular.module('gitevalApp')
-  .controller('MainCtrl', function () {
+  .controller('MainCtrl', function ($scope) {
+  	$scope.doShit = 
+  	function () {
+  		console.log("LALAMA");
+  	}
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

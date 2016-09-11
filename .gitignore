@@ -1,4 +1,5 @@
 api/node_modules
 web/node_modules
 web/bower_components
-api/config.js
+api/config.jsnode_modules
+node_modules

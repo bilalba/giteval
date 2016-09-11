@@ -10,7 +10,8 @@
 angular.module('gitevalApp')
   .controller('MainCtrl', function ($scope) {
   	$scope.doShit = 
-  	function () {
+  	function (t) {
+  		console.log(t)
   		console.log("LALAMA");
   	}
     this.awesomeThings = [

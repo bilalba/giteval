@@ -8,7 +8,7 @@
  * Controller of the gitevalApp
  */
 angular.module('gitevalApp')
-  .controller('MainCtrl', function ($scope, getterService) {
+  .controller('MainCtrl', function ($scope,$location, getterService) {
   	$scope.doShit = 
   	function (t) {
       var abc = getterService.checkUser(t);
@@ -16,6 +16,7 @@ angular.module('gitevalApp')
         console.log(x);
         if (x == false)
           $scope.isUserInvalid = true;
+        $location.path('/user/'+x);
       });
   	}
     this.awesomeThings = [

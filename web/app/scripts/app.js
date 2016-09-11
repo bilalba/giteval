@@ -29,6 +29,11 @@ var app = angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/user/:user', {
+        templateUrl: 'views/user.html',
+        controller: 'userCtrl',
+        controllerAs: 'user'
+      })
       .otherwise({
         redirectTo: '/'
       });

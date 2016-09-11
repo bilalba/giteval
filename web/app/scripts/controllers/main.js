@@ -9,19 +9,16 @@
  */
 angular.module('gitevalApp')
   .controller('MainCtrl', function ($scope,$location, getterService) {
-  	$scope.doShit = 
+    var hey = this;
+  	this.doShit = 
   	function (t) {
       var abc = getterService.checkUser(t);
       abc.then(function(x) {
         console.log(x);
         if (x == false)
-          $scope.isUserInvalid = true;
+          hey.isUserInvalid = true;
+        else
         $location.path('/user/'+x);
       });
   	}
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
   });

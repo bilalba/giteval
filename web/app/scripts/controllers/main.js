@@ -8,11 +8,15 @@
  * Controller of the gitevalApp
  */
 angular.module('gitevalApp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, getterService) {
   	$scope.doShit = 
   	function (t) {
-  		console.log(t)
-  		console.log("LALAMA");
+      var abc = getterService.checkUser(t);
+      abc.then(function(x) {
+        console.log(x);
+        if (x == false)
+          $scope.isUserInvalid = true;
+      });
   	}
     this.awesomeThings = [
       'HTML5 Boilerplate',

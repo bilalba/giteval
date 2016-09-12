@@ -8,6 +8,12 @@ var express = require('express'),
 // const session = require('express-session');
 var app = express();
 
+
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
+    next();
+});
+
 app.use(logger('dev'));
 app.use(express.static('web/dist'))
 

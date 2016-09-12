@@ -29,9 +29,9 @@ var app = angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/user/:user', {
+      .when('/user/:id', {
         templateUrl: 'views/user.html',
-        controller: 'userCtrl',
+        controller: 'UserCtrl',
         controllerAs: 'user'
       })
       .otherwise({

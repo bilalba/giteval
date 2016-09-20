@@ -1,5 +1,8 @@
 var GitHubApi = require('github');
-config = require('./../config');
+var config = require('./../config');
+var redis = require('redis');
+var rcache = redis.createClient();
+
 
 var github = new GitHubApi({
     // optional
@@ -20,6 +23,11 @@ github.authenticate({
     type: "oauth",
     key: config.github.CLIENT_ID,
     secret: config.github.CLIENT_SECRET
+});
+
+
+rcache.on('connect', function() {
+    console.log('Cache is READDYYYY');
 });
 
 
@@ -62,7 +70,7 @@ exports.getUser = function() {
 };
 
 
-exports.repodata = function(req, res) {
+exports.repoData = function(req, res) {
     if (req.query.user) {
         github.repos.getForUser({'user':req.query.user, 'sort':'pushed', 'per_page':100})
         .then(function(data){
@@ -79,7 +87,7 @@ exports.repodata = function(req, res) {
                 size : size
             };
             res.send(send);
-            // startLanguageComputation(req.query.user, data, unforked);
+            startLanguageComputation(req.query.user, data, unforked);
             startContributionComputation(req.query.user, data, unforked);
         }).catch(function(error) {
             res.send({error:"gateway timeout"})
@@ -88,6 +96,28 @@ exports.repodata = function(req, res) {
         res.send({error: 'no user specified bc'})
     }
 };
+
+
+exports.langData = function(req, res) {
+    if (req.query.user) {
+        var user = req.query.user;
+        rcache.get(user+'_l', function(err, reply) {
+            console.log(reply);
+            res.send(reply);
+        });
+    } else {
+
+    }
+}
+
+exports.contribData = function(req, res) {
+    if (req.query.user) {
+
+    } else {
+
+    }
+}
+
 
 
 function startContributionComputation(user, data, unforked) {
@@ -111,7 +141,8 @@ function startContributionComputation(user, data, unforked) {
                 count++;
                 if (count == data.length) {
                     // all tasks done.
-                    console.log(contributions); 
+                    console.log(contributions);
+                    rcache.set([user+'_c',contributions]);
                 }
             })
             .catch(function(err){
@@ -152,6 +183,7 @@ function startLanguageComputation(user, data, unforked) {
 
 function storeLanguage(user, lang) { // move into a cache from here.
     console.log(JSON.stringify(lang));
+    rcache.set([user+'_l',JSON.stringify(lang)]);
 }
 
 

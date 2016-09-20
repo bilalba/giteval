@@ -23,7 +23,9 @@ app.get('/getuser', calculate.getUser);
 
 app.get('/getfollowerscore', calculate.followers);
 app.get('/getactivityscore', calculate.activity);
-app.get('/getrepodata', calculate.repodata);
+app.get('/getrepodata', calculate.repoData);
+app.get('/getlangdata', calculate.langData);
+app.get('/getcontribdata', calculate.contribData);
 app.get('*', function(req,res){res.send({error: 404})});
 
 app.listen(port);

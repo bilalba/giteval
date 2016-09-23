@@ -15,7 +15,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(logger('dev'));
-app.use(express.static('web/dist'))
+app.use(express.static('web/dist'));
 
 var port = process.env.PORT || config.port;
 

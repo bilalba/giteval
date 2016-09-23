@@ -90,10 +90,10 @@ exports.repoData = function(req, res) {
             startLanguageComputation(req.query.user, data, unforked);
             startContributionComputation(req.query.user, data, unforked);
         }).catch(function(error) {
-            res.send({error:"gateway timeout"})
+            res.send({error:"gateway timeout"});
         });
     } else {
-        res.send({error: 'no user specified bc'})
+        res.send({error: 'no user specified bc'});
     }
 };
 
@@ -106,15 +106,19 @@ exports.langData = function(req, res) {
             res.send(reply);
         });
     } else {
-
+         res.send({error: 'no user specified bc'});
     }
 }
 
 exports.contribData = function(req, res) {
     if (req.query.user) {
-
+        var user = req.query.user;
+        rcache.get(user+'_c', function(err, reply) {
+            console.log(reply);
+            res.send(reply);
+        });
     } else {
-
+        res.send({error: 'no user specified bc'});
     }
 }
 
@@ -142,7 +146,7 @@ function startContributionComputation(user, data, unforked) {
                 if (count == data.length) {
                     // all tasks done.
                     console.log(contributions);
-                    rcache.set([user+'_c',contributions]);
+                    rcache.set([user+'_c',JSON.stringify(contributions)]);
                 }
             })
             .catch(function(err){

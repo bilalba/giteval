@@ -1,8 +1,11 @@
 var GitHubApi = require('github');
 var config = require('./../config');
 var redis = require('redis');
-var rcache = redis.createClient();
-
+var rcache;
+if (config.env == 'production')
+    rcache = redis.createClient(config.redis_url);
+else
+    rcache = redis.createClient();
 
 var github = new GitHubApi({
     // optional

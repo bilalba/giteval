@@ -20,7 +20,7 @@ app.service('getterService', function($http) {
 
     this.getFollowers = function(user) {
         console.log("HERE");
-         return $http.get('http://' +api +'/getfollowerscore?user='+user, {timeout: 10000})
+         return $http.get('/getfollowerscore?user='+user, {timeout: 10000})
          .then(function(result) { 
                 return result.data;
             },
